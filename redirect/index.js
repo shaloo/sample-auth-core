@@ -4,8 +4,9 @@ const twitterLoginBtn = document.getElementById('twitter-login');
 const discordLoginBtn = document.getElementById('discord-login');
 const twitchLoginBtn = document.getElementById('twitch-login');
 const redditLoginBtn = document.getElementById('reddit-login');
+const steamLoginBtn = document.getElementById('steam-login');
 const passwordlessLoginBtn = document.getElementById('passwordless-login');
-const { AuthProvider } = window.arcana.auth_core;
+const { AuthProvider, CURVE } = window.arcana.auth_core;
 const userIDElement = document.getElementById('user-id');
 const keyElement = document.getElementById('pvt-key');
 const typeElement = document.getElementById('login-type');
@@ -19,7 +20,9 @@ window.onload = async function () {
   let auth;
   try {
     auth = await AuthProvider.init({
-      appId: '16',
+      appId: '6919ba95cfd93b9eb23846dc748e082cb47d7f89',
+      network: 'dev',
+      curve: CURVE.ED25519,
       // Skip redirectUri if it is same as current url
     });
 
@@ -60,6 +63,9 @@ window.onload = async function () {
   redditLoginBtn.addEventListener('click', () => {
     login('reddit');
   });
+  steamLoginBtn.addEventListener('click', () => {
+    login('steam');
+  });
   passwordlessLoginBtn.addEventListener('click', async () => {
     const response = await auth.loginWithOtp('abc@example.com', {
       withUI: false,
@@ -71,14 +77,3 @@ window.onload = async function () {
     }
   });
 };
-// const checkLogin = async () => {
-//   const isLoggedIn = arcanaLogin.isLoggedIn('google');
-//   if (isLoggedIn) {
-//     const pk = await arcanaLogin.signIn('google');
-//     console.log({ pk });
-//   }
-// };
-
-// checkLogin();
-
-// github twitter twitch reddit
